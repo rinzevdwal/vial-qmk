@@ -2,7 +2,8 @@
 #include <string.h>
 #include <transactions.h>
 // #include "oled_font_lib/logo.h"
-#include "oled_font_lib/logo2.h"
+//#include "oled_font_lib/logo2.h"
+#include "oled_font_lib/logo4.h"
 #include "oled_font_lib/ext_font.h"
 
 
@@ -116,9 +117,9 @@ void render_logo(void) {
     for (i = 0; i < 4; ++i) {
         for (j = 0; j < 32; ++j) {
 #   ifdef I_AM_LEFT
-            oled_write_raw_byte(pgm_read_byte(&logo_mouse[i*32+j]), i*128+j);
+            oled_write_raw_byte(pgm_read_byte(&logo_grin[i*32+j]), i*128+j);
 #   else
-            oled_write_raw_byte(pgm_read_byte(&logo_mouse[i*32+j]), i*128+j+96);
+            oled_write_raw_byte(pgm_read_byte(&logo_grin[i*32+j]), i*128+j+96);
 #   endif
         }
     }
