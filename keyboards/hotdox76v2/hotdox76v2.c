@@ -253,17 +253,18 @@ static const char PROGMEM code_to_name_shifted[0x70] = {
 
 
 void get_cur_alp_hook(uint16_t keycode) {
-    keycode = keycode & 0xFF;
+    uint8_t keycodeLsb = keycode & 0xFF;
+    uint16_t quantumKeycode = keycode & 0xFF00;
     char c = UNC;
     const size_t size_code_to_name = (sizeof(code_to_name) <= sizeof(code_to_name_shifted)) ?
                                                                     sizeof(code_to_name) :
                                                                     sizeof(code_to_name_shifted);
-    if (keycode < size_code_to_name)
+    if (keycodeLsb < size_code_to_name)
     {
-        const bool shifted = get_mods() & MOD_MASK_SHIFT;
+        const bool shifted = ((get_mods() | get_weak_mods()) & MOD_MASK_SHIFT) || (quantumKeycode == QK_LSFT);
         c = shifted ?
-                pgm_read_byte(&code_to_name_shifted[keycode]) :
-                pgm_read_byte(&code_to_name[keycode]);
+                pgm_read_byte(&code_to_name_shifted[keycodeLsb]) :
+                pgm_read_byte(&code_to_name[keycodeLsb]);
     }
 
     if (m2s.cur_alp_index < 4) {
